@@ -3,6 +3,8 @@ package com.hubrystyk.twitterwordcloud.ui.topicDetails;
 import com.hannesdorfmann.mosby.mvp.MvpNullObjectBasePresenter;
 import com.hubrystyk.twitterwordcloud.services.TwitterService;
 
+import net.alhazmy13.wordcloud.WordCloud;
+
 import java.util.List;
 
 import bolts.Continuation;
@@ -18,14 +20,14 @@ public class TopicDetailsPresenter
         mTwitterService = twitterService;
     }
 
-    public void loadWordList() {
+    public void loadWordList(String query) {
         getView().showLoading(false);
 
         mTwitterService
-                .getTrendingTopicWords(null)
-                .continueWith(new Continuation<List<String>, Object>() {
+                .getTrendingTopicWords(query)
+                .continueWith(new Continuation<List<WordCloud>, Object>() {
                     @Override
-                    public Object then(Task<List<String>> task) throws Exception {
+                    public Object then(Task<List<WordCloud>> task) throws Exception {
                         if (task.isFaulted()) {
                             getView().showError(task.getError(), false);
                         } else {

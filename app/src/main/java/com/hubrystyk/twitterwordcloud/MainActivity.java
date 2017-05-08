@@ -28,7 +28,7 @@ public class MainActivity
     public void showTopicDetails(TrendingTopic topic) {
         getSupportFragmentManager()
                 .beginTransaction()
-                .replace(R.id.fragmentContainer, new TopicDetailsFragment())
+                .replace(R.id.fragmentContainer, TopicDetailsFragment.create(topic.getQuery()))
                 .addToBackStack(null)
                 .commit();
     }

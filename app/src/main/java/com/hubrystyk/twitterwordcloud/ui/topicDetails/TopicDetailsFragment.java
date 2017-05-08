@@ -14,17 +14,32 @@ import net.alhazmy13.wordcloud.ColorTemplate;
 import net.alhazmy13.wordcloud.WordCloud;
 import net.alhazmy13.wordcloud.WordCloudView;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class TopicDetailsFragment
-        extends MvpLceFragment<WordCloudView, List<String>, TopicDetailsView, TopicDetailsPresenter>
+        extends MvpLceFragment<WordCloudView, List<WordCloud>, TopicDetailsView, TopicDetailsPresenter>
         implements TopicDetailsView {
     public static final String TAG = "TopicDetailsFragment";
+
+    private String mQuery;
+
+    public static TopicDetailsFragment create(String query) {
+        Bundle args = new Bundle();
+        args.putString("query", query);
+        TopicDetailsFragment fragment = new TopicDetailsFragment();
+        fragment.setArguments(args);
+        return fragment;
+    }
 
     @Override
     public TopicDetailsPresenter createPresenter() {
         return new TopicDetailsPresenter(ServiceProvider.getTwitterService());
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        mQuery = (String) getArguments().getSerializable("query");
     }
 
     @Nullable
@@ -41,18 +56,13 @@ public class TopicDetailsFragment
 
     @Override
     public void loadData(boolean pullToRefresh) {
-        getPresenter().loadWordList();
+        getPresenter().loadWordList(mQuery);
     }
 
     @Override
-    public void setData(List<String> data) {
-        List<WordCloud> words = new ArrayList<>();
-        int position = 0;
-        for (String string : data) {
-            words.add(new WordCloud(string, ++position));
-        }
+    public void setData(final List<WordCloud> data) {
         contentView.setColors(ColorTemplate.MATERIAL_COLORS);
-        contentView.setDataSet(words);
+        contentView.setDataSet(data);
         contentView.notifyDataSetChanged();
     }
 

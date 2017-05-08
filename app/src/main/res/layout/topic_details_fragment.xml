@@ -5,6 +5,7 @@
 
     <net.alhazmy13.wordcloud.WordCloudView
         android:id="@+id/contentView"
+        android:background="@color/colorPrimaryDark"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 

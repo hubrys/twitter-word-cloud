@@ -1,13 +1,14 @@
 package com.hubrystyk.twitterwordcloud.entities;
 
 public class TrendingTopic {
-    private String mName;
-
-    public TrendingTopic(String name) {
-        mName = name;
-    }
+    private String name;
+    private String query;
 
     public String getName() {
-        return mName;
+        return name;
+    }
+
+    public String getQuery() {
+        return query;
     }
 }
